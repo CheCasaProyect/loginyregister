@@ -6,6 +6,7 @@ interface IAccommodation {
     image: string;
   }
   
+  
   const CardAccommodation: React.FC<IAccommodation> = ({ title, description, price, image }) => {
     return (
       <div className="card bg-white shadow-lg p-4 rounded-lg">
