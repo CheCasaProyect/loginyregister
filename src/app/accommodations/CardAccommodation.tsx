@@ -1,11 +1,4 @@
-interface IAccommodation {
-    id?: number;  
-    title: string;
-    description: string;
-    price: number;
-    image: string;
-  }
-  
+import IAccommodation from "@/interfaces/Accomodation"  
   
   const CardAccommodation: React.FC<IAccommodation> = ({ title, description, price, image }) => {
     return (
