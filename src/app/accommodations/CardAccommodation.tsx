@@ -1,13 +1,6 @@
-interface IAccommodation {
-    id?: number;  
-    title: string;
-    description: string;
-    price: number;
-    image: string;
-  }
-  
-  
-  const CardAccommodation: React.FC<IAccommodation> = ({ title, description, price, image }) => {
+import { IAccommodation } from "../interfaces/interfaces";
+
+const CardAccommodation: React.FC<IAccommodation> = ({ title, description, price, image }) => {
     return (
       <div className="card bg-white shadow-lg p-4 rounded-lg">
         <img src={image} alt={title} className="w-full h-40 object-cover rounded-md" />
