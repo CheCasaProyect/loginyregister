@@ -20,4 +20,11 @@ export const accommodations = [
       price: 150,
       image: 'https://a0.muscache.com/im/pictures/miso/Hosting-904491728479980863/original/433f7179-e990-4888-b849-75d4a6fbbe34.jpeg?im_w=1200',
     },
+    {
+      id: 4,
+      title: 'Casa de David',
+      description: 'Sobrevivi si podes.',
+      price: 150,
+      image: 'https://thumbs.dreamstime.com/b/casa-peruana-tradicional-en-el-valle-sagrado-per%C3%BA-65529948.jpg',
+    },
   ];
