@@ -2,20 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface FormData {
-  title: string;
-  description: string;
-  price: string;
-  location: string;
-  rooms: number;
-  bathrooms: number;
-  photos: File[];
-}
+import IFormData from "@/interfaces/FormData";
 
 const RentPropertyForm = () => {
-  const [formData, setFormData] = useState<FormData>({
-    title: "",
+  const [formData, setFormData] = useState<IFormData>({
+    title: "", 
     description: "",
     price: "",
     location: "",
@@ -24,7 +15,7 @@ const RentPropertyForm = () => {
     photos: [],
   });
 
-  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [errors, setErrors] = useState<Partial<IFormData>>({});
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
@@ -39,7 +30,7 @@ const RentPropertyForm = () => {
   };
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {};
+    const newErrors: Partial<IFormData> = {};
     let isValid = true;
 
     if (!formData.title) {
@@ -89,7 +80,7 @@ const RentPropertyForm = () => {
           throw new Error("Failed to submit property.");
         }
 
-        // Redirige al usuario a la página de inicio u otra página
+    
         router.push("/Home");
       } catch (error) {
         if (error instanceof Error) {
