@@ -70,14 +70,13 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-between min-h-screen bg-[#fffefe] text-[#0a0a0a]">
-      {/* Contenedor para la imagen y el texto */}
       <div className="flex-1 flex items-center justify-center max-w-md px-10">
         <Image
           src="/image/carpi.svg"
           alt="Carpi Bienvenida"
           width={256}
           height={256}
-          className="object-cover mr-4" // Añadido un margen derecho para separar la imagen del texto
+          className="object-cover mr-4" 
         />
         <div>
           <h2 className="text-6xl font-bold mb-4">Che! Volviste</h2>
@@ -88,7 +87,6 @@ const Login = () => {
           </p>
         </div>
       </div>
-      {/* Contenedor para el formulario */}
       <div className="flex justify-center items-center w-full max-w-lg p-8 bg-white bg-opacity-90 border border-[#0a0a0a] rounded-md shadow-lg space-y-6 mr-20">
         <div className="w-full">
           <h2 className="text-2xl font-bold text-center tracking-wider">
