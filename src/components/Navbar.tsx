@@ -14,9 +14,8 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
   };
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center">
           <Link href="/">
             <img 

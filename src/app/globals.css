@@ -4,12 +4,12 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #f6f6f6;
     --foreground: #ededed;
   }
 }
@@ -24,4 +24,21 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.Home {
+  margin-top: 80px; 
+}
+
+nav {
+  height: 80px; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.container {
+  padding: 16px;
 }
