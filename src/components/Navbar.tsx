@@ -14,16 +14,16 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
   };
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center">
           <Link href="/">
-            <img 
-              src="https://gcdnb.pbrd.co/images/iTKeM8yxSMmq.png?o=1" 
-              alt="Logo" 
-              style={{ maxWidth: '120px', height: 'auto' }} 
-            />
+          <img 
+            src="https://gcdnb.pbrd.co/images/iTKeM8yxSMmq.png?o=1" 
+            alt="Logo" 
+            style={{ maxWidth: '200px', height: 'auto' }}
+            className="h-15 w-20 mr-2"
+          />
           </Link>
         </div>
 
@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
           </div>
         )}
 
-        {/* Botones */}
+        {/* Buttons */}
         <div className="flex space-x-4">
           <Link href="/login">
             <button className="px-4 py-2 bg-indigo-500 text-gray-800 rounded-md hover:bg-indigo-600 transition">
