@@ -3,10 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup"; 
 import { useState } from "react";
-<<<<<<< HEAD
 import React from "react";
-=======
->>>>>>> 9799d293fd082075572aad31fb3f29648b86b1b1
 
 const Login = () => {
   const [error, setError] = useState("");
