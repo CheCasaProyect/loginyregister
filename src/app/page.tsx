@@ -16,6 +16,7 @@ export default function Home() {
             image={accommodation.image} provincia={''}          />
         ))}
       </div>
+      
     </>
   );
 }
