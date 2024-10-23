@@ -1,4 +1,3 @@
-"use client";
 import React from 'react';
 import Link from "next/link";
 
@@ -52,18 +51,21 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
 
         {/* Barra de búsqueda (Solo si `setSearchTerm` está presente) */}
         {setSearchTerm && (
-          <div className="relative flex">
+          <form className="relative flex" onSubmit={handleSearchSubmit}>
             <input
               type="search"
-              className="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear"
+              className="peer block min-h-[auto] w-full rounded border-2 border-gray-300 bg-transparent px-3 py-2 leading-[1.6] outline-none transition-all duration-200 ease-linear focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
               placeholder="Search"
               aria-label="Search"
               onChange={handleSearchChange}
             />
-            <button type="button" className="ml-2">
+            <button 
+              type="submit" 
+              className="absolute right-0 top-0 mt-2 mr-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition"
+            >
               Buscar
             </button>
-          </div>
+          </form>
         )}
 
         <div className="flex space-x-4">
@@ -73,9 +75,9 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
             </button>
           </Link>
           <Link href="/register">
-          <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
-            Register
-          </button>
+            <button className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition">
+              Register
+            </button>
           </Link>
         </div>
       </div>
