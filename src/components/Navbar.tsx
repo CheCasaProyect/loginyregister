@@ -26,10 +26,8 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
             <img 
               src="https://gcdnb.pbrd.co/images/iTKeM8yxSMmq.png?o=1" 
               alt="Logo" 
-
               style={{ maxWidth: '200px', height: 'auto' }}
               className="h-15 w-20 mr-2"
-
             />
           </Link>
         </div>
