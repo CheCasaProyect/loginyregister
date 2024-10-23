@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import Link from "next/link";
 
@@ -68,6 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
           </form>
         )}
 
+        {/* Botones */}
         <div className="flex space-x-4">
           <Link href="/login">
             <button className="px-4 py-2 bg-indigo-500 text-gray-800 rounded-md hover:bg-indigo-600 transition">
