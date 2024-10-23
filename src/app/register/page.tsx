@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useRouter } from "next/navigation";
 import * as Yup from "yup";
@@ -44,7 +44,7 @@ const Register = () => {
   ) => {
     setError("");
     setSuccessMessage("");
-//ver enrutado del back cuando este listo
+
     try {
       const response = await fetch("http://localhost:3002/users/register", {
         method: "POST",
