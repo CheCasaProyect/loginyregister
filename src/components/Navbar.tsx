@@ -6,7 +6,7 @@ function Navbar() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center">
           <img 
-            src="/" 
+            src="/image/LogoChecasa.jpg" 
             alt="Logo" 
             className="h-8 w-8 mr-2"
           />
