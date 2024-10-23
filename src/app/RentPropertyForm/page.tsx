@@ -70,7 +70,7 @@ const RentPropertyForm = () => {
         formData.photos.forEach((photo) => {
           formDataToSend.append("photos", photo);
         });
-
+//cambiar a las propiedades del back
         const response = await fetch("http://localhost:3001/properties", {
           method: "POST",
           body: formDataToSend,
