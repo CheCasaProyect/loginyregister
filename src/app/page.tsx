@@ -13,11 +13,9 @@ export default function Home() {
             title={accommodation.title}
             description={accommodation.description}
             price={accommodation.price}
-            image={accommodation.image}
-          />
+            image={accommodation.image} provincia={''}          />
         ))}
       </div>
-      
     </>
   );
 }
