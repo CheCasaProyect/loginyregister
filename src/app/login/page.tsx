@@ -138,30 +138,27 @@ const Login = () => {
         </Form>
       )}
     </Formik>
-
     <button
   onClick={loginWithGoogle}
-  className=""
+  className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300"
 >
   <Image
     src="https://i.postimg.cc/kX92B8Gx/images-Photoroom.png"
     alt="Google Logo"
-    width={56}
+    width={24}
     height={24}
+    className="mr-2"
   />
+  Inicia sesión con Google
 </button>
-
-
-
     <div className="text-center mt-4">
           <p className="text-sm">
             ¿No tienes cuenta?{" "}
             <Link href="/register">
-              <p className="text-blue-600 hover:underline">Regístrate aquí</p>
+              <span className="text-blue-600 hover:underline">Regístrate aquí</span>
             </Link>
           </p>
         </div>
-
   </div>
 </div>
   );
