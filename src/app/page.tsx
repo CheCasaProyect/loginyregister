@@ -5,7 +5,7 @@ import { accommodations } from './utilities/accommodations';
 export default function Home() {
   return (
     <>
-      <div className="Home grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
+      <div className="Home flex flex-wrap justify-center gap-5 p-8">
         {accommodations.map((accommodation) => (
           <CardAccommodation
             key={accommodation.id}
