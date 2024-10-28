@@ -45,38 +45,3 @@ nav {
   padding: 16px;
 }
 
-/* Estilos de calendario personalizados para TailwindCSS */
-.calendar-tailwind .react-calendar {
-  @apply w-full;
-}
-
-/* Encabezado de meses y días de la semana en color negro */
-.calendar-tailwind .react-calendar__navigation button,
-.calendar-tailwind .react-calendar__month-view__weekdays__weekday {
-  @apply text-black font-semibold;
-}
-
-/* Días de lunes a viernes en negro */
-.calendar-tailwind .react-calendar__month-view__days__day {
-  @apply text-black; /* Por defecto, los días serán negros */
-}
-
-/* Fines de semana en rojo */
-.calendar-tailwind .react-calendar__month-view__days__day--weekend {
-  @apply text-red-500;
-}
-
-/* Días actuales con fondo especial */
-.calendar-tailwind .react-calendar__tile--now {
-  @apply bg-indigo-100 text-black font-semibold rounded-lg;
-}
-
-/* Días seleccionados en blanco con fondo azul */
-.calendar-tailwind .react-calendar__tile--active {
-  @apply bg-indigo-600 text-white font-bold rounded-lg shadow-lg;
-}
-
-/* Hover de los días en fondo gris claro */
-.calendar-tailwind .react-calendar__tile:enabled:hover {
-  @apply bg-gray-200 text-black rounded-lg;
-}

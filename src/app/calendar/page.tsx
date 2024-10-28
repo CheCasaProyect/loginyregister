@@ -1,11 +1,13 @@
-import SelectorDeFechas from '@/components/Calendar'
-import React from 'react'
-import Calendar from 'react-calendar'
+import DatePickerComponent from '@/components/Calendar';
+import React from 'react';
 
-function page() {
+
+const App: React.FC = () => {
   return (
-   <SelectorDeFechas />
-  )
-}
+    <div className="p-4 bg-gray-100 min-h-screen flex items-center justify-center">
+      <DatePickerComponent />
+    </div>
+  );
+};
 
-export default page
+export default App;
