@@ -1,7 +1,6 @@
 "use client"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {useEffect} from "react";
 import Image from 'next/image';
 import {useRegister} from "@/hooks/useRegister";
 import { useState } from "react";
@@ -240,5 +239,3 @@ const Register = () => {
 };
 
 export default Register;
-
-
