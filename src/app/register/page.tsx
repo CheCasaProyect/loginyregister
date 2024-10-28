@@ -1,15 +1,15 @@
 "use client"
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useRouter } from "next/navigation";
 import * as Yup from "yup";
-import { useState } from "react";
+import {useEffect} from "react";
 import Image from 'next/image';
-import Swal from "sweetalert2";
+import {useRegister} from "@/hooks/useRegister";
+import { useState } from "react";
+import Link from "next/link";
 
 const Register = () => {
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const router = useRouter();
+  const { registerUser, localError } = useRegister();
+  const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
     firstName: "",
@@ -35,66 +35,15 @@ const Register = () => {
       .oneOf([Yup.ref('password')], 'Las contraseñas deben coincidir')
       .required('Confirmación de contraseña es obligatoria'),
     address: Yup.string().required("Dirección es obligatoria"),
-    phone: Yup.string().required("Teléfono es obligatorio"),
+    phone: Yup.string().required("Teléfono es obligatorio").matches(/^[0-9]+$/, "El teléfono debe contener solo números"),
   });
 
   const handleSubmit = async (
     values: typeof initialValues,
     { setSubmitting }: any
   ) => {
-    setError("");
-    setSuccessMessage("");
-
-    try {
-      const response = await fetch("http://localhost:3002/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error al registrar. Intentá de nuevo.");
-      }
-
-      const data = await response.json();
-      setSuccessMessage("¡Registro exitoso!");
-      setError("");
-
-      Swal.fire({
-        icon: 'success',
-        title: '¡Registro exitoso!',
-        text: 'Serás redirigido al login',
-        confirmButtonColor: '#0a0a0a',
-        timer: 2000,
-        timerProgressBar: true,
-        willClose: () => {
-          router.push("/login");
-        }
-      });
-
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error.message,
-          confirmButtonColor: '#0a0a0a',
-        });
-      } else {
-        setError("Un error desconocido ocurrió.");
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Un error desconocido ocurrió.',
-          confirmButtonColor: '#0a0a0a',
-        });
-      }
-    } finally {
-      setSubmitting(false);
-    }
+    await registerUser(values);
+    setSubmitting(false);
   };
 
   return (
@@ -121,6 +70,8 @@ const Register = () => {
         <h2 className="text-xl sm:text-2xl font-bold text-center tracking-wider">
           Crear una cuenta
         </h2>
+    
+        {localError && <div className="text-red-500 text-center">{localError}</div>}
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -183,15 +134,22 @@ const Register = () => {
                 <ErrorMessage name="phone" component="div" className="text-red-500" />
               </div>
               
-              <div className="relative">
+               <div className="relative">
                 <label className="sr-only">Contraseña</label>
                 <Field
-                  type="password"
+                  type={showPassword ? "text" : "password"}  
                   name="password"
                   className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
                   placeholder="Contraseña"
                 />
                 <ErrorMessage name="password" component="div" className="text-red-500" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600"
+                >
+                  {showPassword ? "Ocultar" : "Mostrar"}
+                </button>
               </div>
 
               <div className="relative">
@@ -208,20 +166,28 @@ const Register = () => {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   type="submit"
-                  className="flex-1 bg-[#0B4677] text-white py-2 rounded-md hover:bg-[#0277A5] disabled:bg-gray-400"
+                  className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#a6d2ff] rounded-md hover:bg-[#76bafe] transition duration-300"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Cargando..." : "Registrarse"}
                 </button>
               </div>
-              {error && <div className="text-red-500 text-center">{error}</div>}
-              {successMessage && <div className="text-green-500 text-center">{successMessage}</div>}
             </Form>
           )}
         </Formik>
+        <div className="text-center mt-4">
+        <p className="text-sm">
+            ¿Ya tenes una cuenta?{" "}
+            <Link href="/register">
+              <p className="text-blue-600 hover:underline">Inicia sesión</p>
+            </Link>
+          </p>
+        </div>
+        </div>
       </div>
-    </div>
   );
 };
 
 export default Register;
+
+

@@ -1,17 +1,15 @@
 "use client"
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useRouter } from "next/navigation";
 import * as Yup from "yup";
-import { useState } from "react";
 import React from "react";
 import Image from 'next/image';
-import Swal from 'sweetalert2'; 
-
+import { useAuth, loginWithGoogle } from "../../hooks/useLogin"
+import { useState } from "react";
+import Link from "next/link";
 
 const Login = () => {
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const router = useRouter();
+  const {login, error, successMessage} = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
     email: "",
@@ -29,73 +27,10 @@ const Login = () => {
     values: typeof initialValues,
     { setSubmitting }: any
   ) => {
-    setError("");
-    setSuccessMessage("");
-    //cambiar enrutado a back cuando este
-    try {
-      const response = await fetch("http://localhost:3002/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          setError("Credenciales incorrectas. Intentá de nuevo");
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Credenciales incorrectas. Intentá de nuevo',
-          });
-        } else {
-          throw new Error("Error al iniciar sesión. Intentá de nuevo.");
-        }
-        return;
-      }
-
-      const data = await response.json();
-      const { token, name, email: userEmail, address, phone } = data.user;
-      const userData = { name, email: userEmail, address, phone };
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(userData));
-
-      setSuccessMessage("Inicio de sesión exitoso!");
-      setError("");
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Inicio de sesión exitoso!',
-        text: 'Serás redirigido al perfil.',
-        timer: 2000,
-        timerProgressBar: true,
-        willClose: () => {
-          router.push("/profile");
-        }
-      });
-
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: error.message,
-        });
-      } else {
-        setError("Un error desconocido ocurrió.");
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Un error desconocido ocurrió.',
-        });
-      }
-    } finally {
-      setSubmitting(false); 
-    }
+    await login(values);
+    setSubmitting(false);
   };
-
+    
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-[#fffefe] text-[#0a0a0a] pt-20 lg:pt-40 pb-20">
   <div className="flex-1 flex flex-col lg:flex-row items-center justify-center max-w-2xl px-5 sm:px-10 mb-10 lg:mb-0">
@@ -120,6 +55,8 @@ const Login = () => {
       Inicia sesión
     </h2>
 
+    {successMessage && <div className="text-green-500 text-center">{successMessage}</div>}
+
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -141,34 +78,87 @@ const Login = () => {
               className="text-red-500"
             />
           </div>
-
           <div className="relative">
-            <label className="sr-only">Contraseña</label>
-            <Field
-              type="password"
-              name="password"
-              className="w-full bg-transparent border-b border-[#0a0a0a] text-lg text-[#0a0a0a] placeholder-gray-500 focus:outline-none p-2"
-              placeholder="Contraseña"
-            />
-            <ErrorMessage
-              name="password"
-              component="div"
-              className="text-red-500"
-            />
-          </div>
+                <label className="sr-only">Contraseña</label>
+                <Field
+                  type={showPassword ? "text" : "password"} 
+                  name="password"
+                  className="w-full bg-transparent border-b border-[#0a0a0a] text-lg text-[#0a0a0a] placeholder-gray-500 focus:outline-none p-2"
+                  placeholder="Contraseña"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600"
+                >
+                  {showPassword ? "Ocultar" : "Mostrar"}
+                </button>
+              </div>
 
           <div className="flex justify-between mt-6 space-x-4">
             <button
               type="submit"
-              className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 rounded-md hover:bg-gray-300 transition duration-300"
+              className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#a6d2ff] rounded-md hover:bg-[#76bafe] transition duration-300"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Iniciando sesión..." : "Inicia Sesión"}
+            {isSubmitting ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 mr-3 text-[#0a0a0a]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        ></path>
+                      </svg>
+                      Iniciando sesión...
+                    </>
+                  ) : (
+                    "Inicia Sesión"
+                  )}
             </button>
           </div>
         </Form>
       )}
     </Formik>
+    <button
+  onClick={loginWithGoogle}
+  className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300"
+>
+  <Image
+    src="https://i.postimg.cc/kX92B8Gx/images-Photoroom.png"
+    alt="Google Logo"
+    width={24}
+    height={24}
+    className="mr-2"
+  />
+  Inicia sesión con Google
+</button>
+    <div className="text-center mt-4">
+          <p className="text-sm">
+            ¿No tienes cuenta?{" "}
+            <Link href="/register">
+              <span className="text-blue-600 hover:underline">Regístrate aquí</span>
+            </Link>
+          </p>
+        </div>
   </div>
 </div>
   );

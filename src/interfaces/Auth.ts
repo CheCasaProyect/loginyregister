@@ -9,4 +9,5 @@ export default interface IAuthState {
     setUser: (user: IUser) => void;
     setError: (error: string) => void;
     setSuccessMessage: (message: string) => void;
+    clearMessages: () => void;
   }
