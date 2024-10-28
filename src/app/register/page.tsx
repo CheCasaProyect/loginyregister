@@ -46,7 +46,7 @@ const Register = () => {
     setSuccessMessage("");
 
     try {
-      const response = await fetch("http://localhost:3002/users/register", {
+      const response = await fetch("http://localhost:3002/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
