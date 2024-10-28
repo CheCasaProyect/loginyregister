@@ -14,7 +14,7 @@ export const useRegister = () => {
     clearMessages();
 //cambiar ruta cuando este back
     try {
-      const response = await fetch("http://localhost:3002/users/register", {
+      const response = await fetch("https://proyectochecasa.onrender.com/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

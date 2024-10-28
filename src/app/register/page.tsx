@@ -42,8 +42,59 @@ const Register = () => {
     values: typeof initialValues,
     { setSubmitting }: any
   ) => {
-    await registerUser(values);
-    setSubmitting(false);
+    setError("");
+    setSuccessMessage("");
+
+    try {
+      const response = await fetch("https://proyectochecasa.onrender.com/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al registrar. Intentá de nuevo.");
+      }
+
+      const data = await response.json();
+      setSuccessMessage("¡Registro exitoso!");
+      setError("");
+
+      Swal.fire({
+        icon: 'success',
+        title: '¡Registro exitoso!',
+        text: 'Serás redirigido al login',
+        confirmButtonColor: '#0a0a0a',
+        timer: 2000,
+        timerProgressBar: true,
+        willClose: () => {
+          router.push("/login");
+        }
+      });
+
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+          confirmButtonColor: '#0a0a0a',
+        });
+      } else {
+        setError("Un error desconocido ocurrió.");
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Un error desconocido ocurrió.',
+          confirmButtonColor: '#0a0a0a',
+        });
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
