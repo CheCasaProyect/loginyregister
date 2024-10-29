@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -59,8 +59,8 @@ const DatePickerComponent: React.FC = () => {
             selected={startDate ?? undefined}  
             onChange={handleStartDateChange}
             selectsStart
-            startDate={startDate}
-            endDate={endDate}
+            startDate={startDate ?? undefined}
+            endDate={endDate ?? undefined}
             minDate={new Date()}
             className="border border-gray-300 rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholderText="Selecciona una fecha"
@@ -72,8 +72,8 @@ const DatePickerComponent: React.FC = () => {
             selected={endDate ?? undefined} 
             onChange={handleEndDateChange}
             selectsEnd
-            startDate={startDate}
-            endDate={endDate}
+            startDate={startDate ?? undefined}
+            endDate={endDate ?? undefined}
             minDate={startDate ? addDays(startDate, 1) : new Date()}
             className="border border-gray-300 rounded-md p-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholderText="Selecciona una fecha"
