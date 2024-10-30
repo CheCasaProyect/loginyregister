@@ -18,6 +18,7 @@ const Register = () => {
     confirmPassword: "",
     address: "",
     phone: "",
+    birthdate: "",
   };
 
   const validationSchema = Yup.object({
@@ -35,6 +36,7 @@ const Register = () => {
       .required('Confirmación de contraseña es obligatoria'),
     address: Yup.string().required("Dirección es obligatoria"),
     phone: Yup.string().required("Teléfono es obligatorio").matches(/^[0-9]+$/, "El teléfono debe contener solo números"),
+    birthdate: Yup.date().required("Fecha de nacimiento es obligatoria"),
   });
 
   const handleSubmit = async (
@@ -123,6 +125,16 @@ const Register = () => {
               </div>
 
               <div className="relative">
+                <label className="sr-only">Fecha de nacimiento</label>
+                <Field
+                  type="date"
+                  name="birthdate"
+                  className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
+                />
+                <ErrorMessage name="birthdate" component="div" className="text-red-500" />
+              </div>
+
+              <div className="relative">
                 <label className="sr-only">Teléfono</label>
                 <Field
                   type="text"
@@ -177,7 +189,7 @@ const Register = () => {
         <div className="text-center mt-4">
         <p className="text-sm">
             ¿Ya tenes una cuenta?{" "}
-            <Link href="/register">
+            <Link href="/login">
               <p className="text-blue-600 hover:underline">Inicia sesión</p>
             </Link>
           </p>
