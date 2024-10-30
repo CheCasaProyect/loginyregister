@@ -12,18 +12,19 @@ export const useRegister = () => {
     setError("");
     setSuccessMessage("");
     clearMessages();
-//cambiar ruta cuando este back
-    try {
-      const response = await fetch("https://proyectochecasa.onrender.com/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+try {
+  const response = await fetch("https://proyectochecasa.onrender.com/auth/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+  console.log("Datos enviados:", JSON.stringify(values));
 
       if (!response.ok) {
-        throw new Error("Error al registrar. Intentá de nuevo.");
+        const errorData = await response.json(); 
+        throw new Error(errorData.message ||"Error al registrar. Intentá de nuevo.");
       }
 
       const data = await response.json();

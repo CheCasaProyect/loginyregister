@@ -11,6 +11,13 @@ export const useAuthStore = create<IAuthState>((set) => ({
   setError: (error) => set({ error }),
   setSuccessMessage: (message) => set({ successMessage: message }),
   clearMessages: () => set({ error: "", successMessage: "" }),
+  resetForm: () =>
+  set({
+    token: null,
+    user: null,
+    error: "",
+    successMessage: "",
+  }),
 }));
 
 
