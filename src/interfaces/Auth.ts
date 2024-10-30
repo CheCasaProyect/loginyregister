@@ -10,4 +10,5 @@ export default interface IAuthState {
     setError: (error: string) => void;
     setSuccessMessage: (message: string) => void;
     clearMessages: () => void;
+    resetForm: () => void;
   }
