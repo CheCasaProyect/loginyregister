@@ -11,19 +11,19 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     confirmPassword: "",
-    address: "",
+    // address: "",
     phone: "",
     birthdate: "",
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Nombre es obligatorio"),
-    lastName: Yup.string().required("Apellido es obligatorio"),
+    firstname: Yup.string().required("Nombre es obligatorio"),
+    lastname: Yup.string().required("Apellido es obligatorio"),
     email: Yup.string().email("Formato de email inválido").required("Email es obligatorio"),
     password: Yup.string()
       .matches(
@@ -34,16 +34,13 @@ const Register = () => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password')], 'Las contraseñas deben coincidir')
       .required('Confirmación de contraseña es obligatoria'),
-    address: Yup.string().required("Dirección es obligatoria"),
+    // address: Yup.string().required("Dirección es obligatoria"),
     phone: Yup.string().required("Teléfono es obligatorio").matches(/^[0-9]+$/, "El teléfono debe contener solo números"),
     birthdate: Yup.date().required("Fecha de nacimiento es obligatoria"),
   });
 
-  const handleSubmit = async (
-    values: typeof initialValues,
-    { setSubmitting }: any
-  ) => {
-    await registerUser(values);
+  const handleSubmit = (values: typeof initialValues, { setSubmitting }: any) => {
+    registerUser(values); 
     setSubmitting(false);
   };
 
@@ -84,22 +81,22 @@ const Register = () => {
                 <label className="sr-only">Nombre</label>
                 <Field
                   type="text"
-                  name="firstName"
+                  name="firstname"
                   className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
                   placeholder="Nombre"
                 />
-                <ErrorMessage name="firstName" component="div" className="text-red-500" />
+                <ErrorMessage name="firstname" component="div" className="text-red-500" />
               </div>
 
               <div className="relative">
                 <label className="sr-only">Apellido</label>
                 <Field
                   type="text"
-                  name="lastName"
+                  name="lastname"
                   className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
                   placeholder="Apellido"
                 />
-                <ErrorMessage name="lastName" component="div" className="text-red-500" />
+                <ErrorMessage name="lastname" component="div" className="text-red-500" />
               </div>
 
               <div className="relative">
@@ -113,7 +110,7 @@ const Register = () => {
                 <ErrorMessage name="email" component="div" className="text-red-500" />
               </div>
 
-              <div className="relative">
+              {/* <div className="relative">
                 <label className="sr-only">Dirección</label>
                 <Field
                   type="text"
@@ -122,7 +119,7 @@ const Register = () => {
                   placeholder="Dirección"
                 />
                 <ErrorMessage name="address" component="div" className="text-red-500" />
-              </div>
+              </div> */}
 
               <div className="relative">
                 <label className="sr-only">Fecha de nacimiento</label>
@@ -177,7 +174,7 @@ const Register = () => {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   type="submit"
-                  className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#a6d2ff] rounded-md hover:bg-[#76bafe] transition duration-300"
+                  className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#a6d2ff] rounded-md hover:bg-[#6486a8] transition duration-300"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Cargando..." : "Registrarse"}
