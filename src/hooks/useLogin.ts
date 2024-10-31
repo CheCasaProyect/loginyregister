@@ -25,7 +25,7 @@ export const useAuth = () => {
       await delay(1000);
       console.log("Enviando solicitud de login...");
 
-      const response = await fetch("/auth/login", {
+      const response = await fetch("https://proyectochecasa.onrender.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +78,7 @@ export const useAuth = () => {
 
 export const loginWithGoogle = async () => {
   try {
-    const response = await fetch("/auth/google", {
+    const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
       method: "POST",
       credentials: "include", 
     });
