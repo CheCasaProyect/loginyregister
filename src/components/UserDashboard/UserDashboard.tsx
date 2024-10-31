@@ -70,6 +70,7 @@ const UserDashboard: React.FC = () => {
         {activeSection === 'properties' && <MyProperties properties={exampleProperties} />}
         {activeSection === 'reservations' && <MyReservations />}
         {activeSection === 'reviews' && <MyReviews propertyId={''} />}
+
       </main>
     </div>
   );
