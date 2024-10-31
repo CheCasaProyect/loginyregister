@@ -19,9 +19,3 @@ export const useAuthStore = create<IAuthState>((set) => ({
     successMessage: "",
   }),
 }));
-
-
-
-
-
-

@@ -1,9 +1,38 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { reservas } from "../utilities/reservas";
+import { useAuthStore } from "@/store/authStore";
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("perfil");
+  const { user, setUser, token } = useAuthStore();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (token && user) {
+        try {
+          const response = await fetch(`/users/${user.id}`, {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Error al obtener los datos del usuario");
+          }
+
+          const userData = await response.json();
+          setUser(userData);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [token, user, setUser]);
 
   return (
     <div className="flex min-h-screen bg-[#f2f2f2] text-[#0a0a0a]">
@@ -46,11 +75,16 @@ const UserDashboard = () => {
             />
             <div>
               <h3 className="text-xl font-bold mb-4">Mi Perfil</h3>
-              <div className="mb-4">
-                <p><span className="font-semibold">Nombre:</span> Juan Pérez</p>
-                <p><span className="font-semibold">Correo electrónico:</span> juan.perez@example.com</p>
-                <p><span className="font-semibold">Dirección:</span> Calle Falsa 123, Ciudad Ficticia</p>
-              </div>
+              {user ? (
+                <div className="mb-4">
+                  <p><span className="font-semibold">Nombre:</span> {user.firstname} {user.lastname}</p>
+                  <p><span className="font-semibold">Correo electrónico:</span> {user.email}</p>
+                  {/* <p><span className="font-semibold">Dirección:</span> {user.addres}</p> */}
+                  <p><span className="font-semibold">Teléfono:</span> {user.phone}</p>
+                </div>
+              ) : (
+                <p>Cargando información del usuario...</p>
+              )}
             </div>
           </section>
         )}
