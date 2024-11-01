@@ -21,8 +21,6 @@ export const useAuth = () => {
     setSuccessMessage(null);
     
     try {
-      console.log("Esperando 1 segundo antes de enviar la solicitud...");
-      await delay(1000);
       console.log("Enviando solicitud de login...");
 
       const response = await fetch("https://proyectochecasa.onrender.com/auth/login", {
@@ -33,10 +31,14 @@ export const useAuth = () => {
         body: JSON.stringify(values),
       });
 
-      if (!response.ok) {
+      if (response.status === 400) {
         const errorData = await response.json();
         console.log("Error en la respuesta:", errorData);
-        throw new Error(errorData.message || "Error al iniciar sesión. Intentá de nuevo.");
+        throw new Error(errorData.message || "Error en los datos de inicio de sesión.");
+      }
+
+      if (!response.ok) {
+        throw new Error("Error inesperado en el servidor. Intentá de nuevo más tarde.");
       }
 
       const data = await response.json();
@@ -85,7 +87,13 @@ export const loginWithGoogle = async () => {
     if (response.ok) {
       console.log("Inicio de sesión con Google exitoso");
     } else {
-      console.error("Error en el inicio de sesión con Google");
+      const errorData = await response.json();
+      console.error("Error en el inicio de sesión con Google:", errorData.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: errorData.message || "No se pudo iniciar sesión con Google.",
+      });
     }
   } catch (error) {
     console.error("Error al iniciar sesión con Google", error);

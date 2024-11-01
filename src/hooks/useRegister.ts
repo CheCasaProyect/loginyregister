@@ -17,8 +17,6 @@ export const useRegister = () => {
     setSuccessMessage("");
     clearMessages();
     try {
-      console.log("Esperando 2 segundos antes de enviar la solicitud...");
-      await delay(2000);
       console.log("Enviando solicitud de registro...");
       values.phone = String(values.phone);
       console.log("Datos enviados:", JSON.stringify(values));
@@ -33,7 +31,7 @@ export const useRegister = () => {
 
       console.log("Datos enviados:", JSON.stringify(values));
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const contentType = response.headers.get("Content-Type");
         const data = contentType && contentType.includes("application/json")
           ? await response.json()
