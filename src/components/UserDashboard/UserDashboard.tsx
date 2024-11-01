@@ -66,7 +66,7 @@ const UserDashboard: React.FC = () => {
         </button>
       </aside>
       <main className="flex-1 p-8">
-        {activeSection === 'profile' && <UserProfile user={user} />}
+        {activeSection === 'profile' && <UserProfile />}
         {activeSection === 'properties' && <MyProperties properties={exampleProperties} />}
         {activeSection === 'reservations' && <MyReservations />}
         {activeSection === 'reviews' && <MyReviews propertyId={''} />}
