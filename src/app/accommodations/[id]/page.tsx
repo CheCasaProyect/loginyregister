@@ -46,4 +46,4 @@ const AccommodationDetail = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default AccommodationDetail; 
+export default AccommodationDetail;
