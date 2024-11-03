@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import IAccommodation from "@/interfaces/Accomodation";
 import React from 'react';
 
-const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, price, image }) => {
+const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, price, image, latitude, longitude }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
