@@ -5,4 +5,6 @@ export default interface IAccommodation {
     description: string;
     price: number;
     image: string;
+    latitude: number;
+    longitude: number;
   }
