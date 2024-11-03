@@ -3,7 +3,7 @@
 import React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import PaymentComponent from '@/components/PaymentComponent';
+import PaymentComponent from '@/components/PaymentButton';
 
 // Asegúrate de reemplazar 'your_public_key' con tu clave pública de Stripe
 const stripePromise = loadStripe('your_public_key');
@@ -14,7 +14,7 @@ const PaymentPage = () => {
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6">Proceso de Pago</h1>
                 <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-                    <PaymentComponent />
+                  
                 </div>
             </div>
         </Elements>

@@ -1,13 +1,30 @@
-"use client";
+'use client';
 
-import React from 'react';
-import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface NavbarProps {
   setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface IUserSession {
+  user: {
+    email: string;
+  };
+}
+
 const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
+  const router = useRouter();
+  const [userData, setUserData] = useState<IUserSession | null>(null);
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userSession');
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (setSearchTerm) {
       setSearchTerm(e.target.value);
@@ -16,7 +33,13 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
 
   const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Search submitted!");
+    console.log('Search submitted!');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userSession');
+    setUserData(null);
+    router.push('/');
   };
 
   return (
@@ -32,7 +55,6 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
           </Link>
         </div>
 
-        
         <form className="relative flex w-full md:w-auto mt-3 md:mt-0" onSubmit={handleSearchSubmit}>
           <input
             type="search"
@@ -49,18 +71,28 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
           </button>
         </form>
 
-       
         <div className="flex space-x-2 md:space-x-4 mt-3 md:mt-0">
-          <Link href="/login">
-            <button className="px-3 md:px-4 py-2 bg-indigo-500 text-white font-medium text-xs md:text-sm lg:text-base rounded-md shadow-lg hover:bg-indigo-600 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">
-              Iniciar Sesión
+          {userData ? (
+            <button
+              onClick={handleLogout}
+              className="px-3 md:px-4 py-2 bg-red-500 text-white font-medium text-xs md:text-sm lg:text-base rounded-md shadow-lg hover:bg-red-600 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+            >
+              Cerrar Sesión
             </button>
-          </Link>
-          <Link href="/register">
-            <button className="px-3 md:px-4 py-2 bg-gray-200 text-gray-800 font-medium text-xs md:text-sm lg:text-base rounded-md shadow-lg hover:bg-gray-300 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
-              Registrarse
-            </button>
-          </Link>
+          ) : (
+            <>
+              <Link href="/login">
+                <button className="px-3 md:px-4 py-2 bg-indigo-500 text-white font-medium text-xs md:text-sm lg:text-base rounded-md shadow-lg hover:bg-indigo-600 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2">
+                  Iniciar Sesión
+                </button>
+              </Link>
+              <Link href="/register">
+                <button className="px-3 md:px-4 py-2 bg-gray-200 text-gray-800 font-medium text-xs md:text-sm lg:text-base rounded-md shadow-lg hover:bg-gray-300 hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                  Registrarse
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
