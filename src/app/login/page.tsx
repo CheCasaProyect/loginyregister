@@ -1,11 +1,14 @@
-"use client"
+"use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import React, { useState } from "react";
 import Image from 'next/image';
-import { useAuth, loginWithGoogle } from "../../hooks/useLogin";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
+import { auth, provider } from "../../firebaseConfig";
+import { signInWithPopup } from "firebase/auth";
+import { useAuth } from "../../hooks/useLogin";
+
 
 const Login = () => {
   const { login } = useAuth();
@@ -29,12 +32,40 @@ const Login = () => {
       .required("Contraseña es obligatoria"),
   });
 
-  const handleSubmit = async (values: typeof initialValues, { setSubmitting }: any) => {
+    const handleSubmit = async (values: typeof initialValues, { setSubmitting }: any) => {
     await login(values);
     setSubmitting(false);
-
     if (successMessage) {
       resetForm();
+    }
+  };
+
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        const token = await result.user.getIdToken();
+        await sendTokenToBackend(token); 
+        console.log('Token:', token); 
+      })
+      .catch((error) => {
+        console.error('Error de autenticación:', error);
+      });
+  };
+
+  const sendTokenToBackend = async (token: any) => {
+    try {
+      const response = await fetch('https://proyectochecasa.onrender.com/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ token })
+      });
+      const data = await response.json();
+      console.log('Respuesta del backend:', data);
+    } catch (error) {
+      console.error('Error al enviar el token:', error);
     }
   };
 
@@ -54,7 +85,7 @@ const Login = () => {
             Che! Volviste
           </h2>
           <p className="leading-relaxed text-base sm:text-lg lg:text-xl mb-6">
-          Bienvenido a la experiencia del turismo argentino. Desde la majestuosidad de la Patagonia hasta las vibrantes ciudades, estamos aquí para ayudarte a planificar tu próxima aventura.
+            Bienvenido a la experiencia del turismo argentino. Desde la majestuosidad de la Patagonia hasta las vibrantes ciudades, estamos aquí para ayudarte a planificar tu próxima aventura.
           </p>
         </div>
       </div>
@@ -106,11 +137,11 @@ const Login = () => {
           )}
         </Formik>
 
-        <button onClick={loginWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
+        <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
           <Image src="https://i.postimg.cc/kX92B8Gx/images-Photoroom.png" alt="Google Logo" width={24} height={24} className="mr-2" />
           Inicia sesión con Google
         </button>
-        
+
         <div className="text-center mt-4">
           <p className="text-sm">
             ¿No tienes cuenta?{" "}
