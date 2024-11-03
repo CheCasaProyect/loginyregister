@@ -4,4 +4,6 @@ export default interface IUser {
     birthdate: string;
     phone: string;
     email: string;
+    // addres: string;
+    id: string;
   }

@@ -14,12 +14,16 @@ export const useAuth = () => {
   const { setToken, setUser } = useAuthStore();
   const router = useRouter();
 
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
   const login = async (values: LoginValues) => {
     setError(null);
     setSuccessMessage(null);
     
     try {
-      const response = await fetch("http://localhost:3002/users/login", {
+      console.log("Enviando solicitud de login...");
+
+      const response = await fetch("https://proyectochecasa.onrender.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,28 +31,28 @@ export const useAuth = () => {
         body: JSON.stringify(values),
       });
 
+      if (response.status === 400) {
+        const errorData = await response.json();
+        console.log("Error en la respuesta:", errorData);
+        throw new Error(errorData.message || "Error en los datos de inicio de sesión.");
+      }
+
       if (!response.ok) {
-        if (response.status === 401) {
-          setError("Credenciales incorrectas. Intentá de nuevo");
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Credenciales incorrectas. Intentá de nuevo",
-          });
-        } else {
-          throw new Error("Error al iniciar sesión. Intentá de nuevo.");
-        }
-        return;
+        throw new Error("Error inesperado en el servidor. Intentá de nuevo más tarde.");
       }
 
       const data = await response.json();
-      const { token, firstname, lastname, birthdate, email: userEmail, address, phone } = data.user;
-      const userData = { firstname, lastname, birthdate, email: userEmail, address, phone };
+      console.log("Datos recibidos:", data);
 
-      setToken(data.token);
-      setUser(userData);
+      if (!data.token) {
+        throw new Error("La respuesta del servidor no contiene un usuario o token válido.");
+      }
 
+      const token = data.token;
+      
+      setToken(token);
       setSuccessMessage("Inicio de sesión exitoso!");
+
       Swal.fire({
         icon: "success",
         title: "Inicio de sesión exitoso!",
@@ -61,6 +65,7 @@ export const useAuth = () => {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Un error desconocido ocurrió.";
+      console.log("Error en el catch:", error);
       setError(message);
       Swal.fire({
         icon: "error",
@@ -69,22 +74,28 @@ export const useAuth = () => {
       });
     }
   };
-  
+
   return { login, error, successMessage };
 };
 
 export const loginWithGoogle = async () => {
-   try { //cambiar ruta cuando este en back 
-     const response = await fetch("/api/auth/google", {
-       method: "POST",
-       credentials: "include", 
-     });
-     if (response.ok) {
-       console.log("Inicio de sesión con Google exitoso");
-     } else {
-       console.error("Error en el inicio de sesión con Google");
-     }
-   } catch (error) {
-     console.error("Error al iniciar sesión con Google", error);
-   }
- };
+  try {
+    const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
+      method: "POST",
+      credentials: "include", 
+    });
+    if (response.ok) {
+      console.log("Inicio de sesión con Google exitoso");
+    } else {
+      const errorData = await response.json();
+      console.error("Error en el inicio de sesión con Google:", errorData.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: errorData.message || "No se pudo iniciar sesión con Google.",
+      });
+    }
+  } catch (error) {
+    console.error("Error al iniciar sesión con Google", error);
+  }
+};

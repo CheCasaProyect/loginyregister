@@ -1,8 +1,8 @@
-"use client"
+"use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Image from 'next/image';
-import {useRegister} from "@/hooks/useRegister";
+import { useRegister } from "@/hooks/useRegister";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -11,18 +11,18 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
     confirmPassword: "",
-    address: "",
     phone: "",
+    birthdate: "",
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Nombre es obligatorio"),
-    lastName: Yup.string().required("Apellido es obligatorio"),
+    firstname: Yup.string().required("Nombre es obligatorio"),
+    lastname: Yup.string().required("Apellido es obligatorio"),
     email: Yup.string().email("Formato de email inválido").required("Email es obligatorio"),
     password: Yup.string()
       .matches(
@@ -31,17 +31,16 @@ const Register = () => {
       )
       .required("Contraseña es obligatoria"),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password')], 'Las contraseñas deben coincidir')
-      .required('Confirmación de contraseña es obligatoria'),
-    address: Yup.string().required("Dirección es obligatoria"),
-    phone: Yup.string().required("Teléfono es obligatorio").matches(/^[0-9]+$/, "El teléfono debe contener solo números"),
+      .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir")
+      .required("Confirmación de contraseña es obligatoria"),
+    phone: Yup.string()
+      .required("Teléfono es obligatorio")
+      .matches(/^[0-9]+$/, "El teléfono debe contener solo números"),
+    birthdate: Yup.date().required("Fecha de nacimiento es obligatoria"),
   });
 
-  const handleSubmit = async (
-    values: typeof initialValues,
-    { setSubmitting }: any
-  ) => {
-    await registerUser(values);
+  const handleSubmit = (values: any, { setSubmitting }: any) => {
+    registerUser(values);
     setSubmitting(false);
   };
 
@@ -53,14 +52,16 @@ const Register = () => {
           alt="Carpi Bienvenida"
           width={256}
           height={256}
-          className="object-cover w-48 h-48 sm:w-64 sm:h-64 mb-6 lg:mb-0 lg:mr-2 lg:ml-12" 
+          className="object-cover w-48 h-48 sm:w-64 sm:h-64 mb-6 lg:mb-0 lg:mr-2 lg:ml-12"
         />
         <div className="text-center lg:text-left lg:ml-6">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
             Che! Registrate
           </h2>
           <p className="leading-relaxed text-base sm:text-lg lg:text-xl mb-6">
-            "Bienvenido a tu próxima aventura en Argentina. Registrate para descubrir los mejores alojamientos locales y viví una experiencia única en cada rincón del país."
+            "Bienvenido a tu próxima aventura en Argentina. Registrate para
+            descubrir los mejores alojamientos locales y viví una experiencia
+            única en cada rincón del país."
           </p>
         </div>
       </div>
@@ -69,7 +70,7 @@ const Register = () => {
         <h2 className="text-xl sm:text-2xl font-bold text-center tracking-wider">
           Crear una cuenta
         </h2>
-    
+
         {localError && <div className="text-red-500 text-center">{localError}</div>}
         <Formik
           initialValues={initialValues}
@@ -79,25 +80,24 @@ const Register = () => {
           {({ isSubmitting }) => (
             <Form className="space-y-6">
               <div className="relative">
-                <label className="sr-only">Nombre</label>
                 <Field
                   type="text"
-                  name="firstName"
-                  className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
+                  name="firstname"
                   placeholder="Nombre"
+                  className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
                 />
-                <ErrorMessage name="firstName" component="div" className="text-red-500" />
+                <ErrorMessage name="firstname" component="div" className="text-red-500" />
               </div>
 
               <div className="relative">
-                <label className="sr-only">Apellido</label>
-                <Field
+                  <label className="sr-only">Apellido</label>                
+                  <Field
                   type="text"
-                  name="lastName"
+                  name="lastname"
                   className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
                   placeholder="Apellido"
                 />
-                <ErrorMessage name="lastName" component="div" className="text-red-500" />
+                <ErrorMessage name="lastname" component="div" className="text-red-500" />
               </div>
 
               <div className="relative">
@@ -112,14 +112,13 @@ const Register = () => {
               </div>
 
               <div className="relative">
-                <label className="sr-only">Dirección</label>
+                <label className="sr-only">Fecha de nacimiento</label>
                 <Field
-                  type="text"
-                  name="address"
+                  type="date"
+                  name="birthdate"
                   className="w-full bg-transparent border-b border-[#0a0a0a] text-lg placeholder-gray-500 focus:outline-none p-2"
-                  placeholder="Dirección"
                 />
-                <ErrorMessage name="address" component="div" className="text-red-500" />
+                <ErrorMessage name="birthdate" component="div" className="text-red-500" />
               </div>
 
               <div className="relative">
@@ -161,11 +160,13 @@ const Register = () => {
                 />
                 <ErrorMessage name="confirmPassword" component="div" className="text-red-500" />
               </div>
-
+              
+        
+              
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   type="submit"
-                  className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#a6d2ff] rounded-md hover:bg-[#76bafe] transition duration-300"
+                  className="flex-1 border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#a6d2ff] rounded-md hover:bg-[#6486a8] transition duration-300"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Cargando..." : "Registrarse"}
@@ -175,15 +176,15 @@ const Register = () => {
           )}
         </Formik>
         <div className="text-center mt-4">
-        <p className="text-sm">
+          <p className="text-sm">
             ¿Ya tenes una cuenta?{" "}
-            <Link href="/register">
-              <p className="text-blue-600 hover:underline">Inicia sesión</p>
+            <Link href="/login">
+              <span className="text-blue-600 hover:underline">Inicia sesión</span>
             </Link>
           </p>
         </div>
-        </div>
       </div>
+    </div>
   );
 };
 

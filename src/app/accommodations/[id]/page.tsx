@@ -1,7 +1,10 @@
+
 import React from 'react';
 import DatePickerComponent from '@/components/Calendar';
 import { accommodations } from '../../utilities/accommodations'; 
 import PaymentButton from '@/components/PaymentButton';
+import IAccommodation from '@/interfaces/Accomodation';
+import Map from '../../map/cheMap';
 
 export const generateStaticParams = async () => {
   return accommodations.map(accommodation => ({
@@ -35,6 +38,14 @@ const AccommodationDetail = async ({ params }: { params: { id: string } }) => {
           <span className="text-sm">(13 evaluaciones)</span>
         </div>
       </div>
+
+      <div className="mt-6">
+        <h2 className="text-2x1 font-bold text-gray-900 mb-4"> Ubicación</h2>
+        <div className="w full h-64 rounded-lg overflow-hidden">
+          <Map latitude={accommodation.latitude} longitude={accommodation.longitude}/>
+        </div>
+      </div>     
+>>>>>>> development
       <div className="mt-6">
         <button className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
           Reservar
