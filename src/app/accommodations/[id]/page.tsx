@@ -19,7 +19,7 @@ const AccommodationDetail = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchAccommodation = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/properties/${params.id}`);
+        const response = await fetch(`http://localhost:3002/properties/${params.id}`);
         if (!response.ok) {
           const errorMessage = await response.text(); // Registrar el mensaje de error
           throw new Error(`Error: ${response.status} - ${errorMessage}`);
@@ -86,7 +86,11 @@ interface Params {
           Reservar
         </button>
         <DatePickerComponent />
-        <PaymentButton propertyId={accommodation.id} price={accommodation.price} stripeProductId={accommodation.stripeProductId} stripePriceId={accommodation.stripePriceId} /> {/* Asegúrate de pasar los props correctos */}
+        <PaymentButton 
+        propertyId={accommodation.id as number} 
+        price={accommodation.price} 
+        stripeProductId={accommodation.stripeProductId} 
+        stripePriceId={accommodation.stripePriceId} /> {/* Asegúrate de pasar los props correctos */}
       </div>
     </div>
   );
