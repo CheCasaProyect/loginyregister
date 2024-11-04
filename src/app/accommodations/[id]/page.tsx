@@ -86,7 +86,11 @@ interface Params {
           Reservar
         </button>
         <DatePickerComponent />
-        <PaymentButton propertyId={accommodation.id} price={accommodation.price} stripeProductId={accommodation.stripeProductId} stripePriceId={accommodation.stripePriceId} /> {/* Asegúrate de pasar los props correctos */}
+        <PaymentButton 
+        propertyId={accommodation.id as number} 
+        price={accommodation.price} 
+        stripeProductId={accommodation.stripeProductId} 
+        stripePriceId={accommodation.stripePriceId} /> {/* Asegúrate de pasar los props correctos */}
       </div>
     </div>
   );
