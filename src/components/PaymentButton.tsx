@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface PaymentButtonProps {
-  propertyId: number;
+  propertyId: number | undefined ;
   stripeProductId: any;
   stripePriceId: any;
   price: number;

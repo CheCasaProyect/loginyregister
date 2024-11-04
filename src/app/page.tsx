@@ -8,7 +8,7 @@ export default function Home() {
   useEffect(() => {
     const fetchAccommodations = async () => {
       try {
-        const response = await fetch('http://localhost:3001/properties'); 
+        const response = await fetch('http://localhost:3002/properties'); 
         const data = await response.json();
         setAccommodations(data); 
       } catch (error) {
