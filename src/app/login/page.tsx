@@ -1,7 +1,7 @@
 "use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
@@ -41,15 +41,15 @@ const Login = () => {
   };
 
   const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const token = await result.user.getIdToken();
-        await sendTokenToBackend(token); 
-        console.log('Token:', token); 
-      })
-      .catch((error) => {
-        console.error('Error de autenticación:', error);
-      });
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          const token = await result.user.getIdToken();
+          await sendTokenToBackend(token); 
+          console.log('Token:', token); 
+        })
+        .catch((error) => {
+          console.error('Error de autenticación:', error);
+        });
   };
 
   const sendTokenToBackend = async (token: any) => {

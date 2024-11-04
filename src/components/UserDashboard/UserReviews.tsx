@@ -145,7 +145,7 @@ const MyReviews: React.FC<{ propertyId: string }> = ({ propertyId }) => {
               key={review.id}
               className="p-4 border border-gray-200 rounded-md shadow-sm hover:shadow-lg transition duration-200"
             >
-              <h3 className="text-xl font-semibold">{review.property.name}</h3>
+              <h3 className="text-xl font-semibold">{review.property.title}</h3>
               <p className="text-gray-600">{review.comment}</p>
               <p className="font-medium">
                 Calificación: <span className="text-yellow-500">{'★'.repeat(review.rating)}</span>

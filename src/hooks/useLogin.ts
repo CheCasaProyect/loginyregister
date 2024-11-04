@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useAuthStore } from "../store/authStore";
@@ -14,7 +15,6 @@ export const useAuth = () => {
   const { setToken, setUser } = useAuthStore();
   const router = useRouter();
 
-  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const login = async (values: LoginValues) => {
     setError(null);
@@ -77,8 +77,8 @@ export const useAuth = () => {
 
   return { login, error, successMessage };
 };
-
 export const loginWithGoogle = async () => {
+  const router = useRouter(); 
   try {
     const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
       method: "POST",
@@ -86,6 +86,17 @@ export const loginWithGoogle = async () => {
     });
     if (response.ok) {
       console.log("Inicio de sesión con Google exitoso");
+
+      Swal.fire({
+        icon: "success",
+        title: "Inicio de sesión exitoso!",
+        text: "Serás redirigido al perfil.",
+        timer: 2000,
+        timerProgressBar: true,
+        willClose: () => {
+          router.push("/profile"); 
+        }
+      });
     } else {
       const errorData = await response.json();
       console.error("Error en el inicio de sesión con Google:", errorData.message);
@@ -99,3 +110,26 @@ export const loginWithGoogle = async () => {
     console.error("Error al iniciar sesión con Google", error);
   }
 };
+
+// export const loginWithGoogle = async () => {
+//   try {
+//     const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
+//       method: "POST",
+//       credentials: "include", 
+//     });
+//     if (response.ok) {
+//       console.log("Inicio de sesión con Google exitoso");
+//     } else {
+//       const errorData = await response.json();
+//       console.error("Error en el inicio de sesión con Google:", errorData.message);
+//       Swal.fire({
+//         icon: "error",
+//         title: "Error",
+//         text: errorData.message || "No se pudo iniciar sesión con Google.",
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Error al iniciar sesión con Google", error);
+//   }
+// };
+
