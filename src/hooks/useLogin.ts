@@ -32,7 +32,7 @@ export const useAuth = (): UseAuthReturn => {
     try {
       console.log("Enviando solicitud de login...");
 
-      const response = await fetch("https://proyectochecasa.onrender.com/auth/login", {
+      const response = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ export const useAuth = (): UseAuthReturn => {
 export const loginWithGoogle = async () => {
   const router = useRouter(); 
   try {
-    const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
+    const response = await fetch("http://localhost:3001/auth/google", {
       method: "POST",
       credentials: "include", 
     });

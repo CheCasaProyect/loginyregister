@@ -3,7 +3,7 @@ import IAuthState from "../interfaces/Auth";
 import IUser from "@/interfaces/Iuser";
 
 export const useAuthStore = create<IAuthState>((set) => {
-  const savedToken = localStorage.getItem("token");
+  const savedToken = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   if (savedToken) {
     set({ token: savedToken });
