@@ -8,16 +8,21 @@ import dynamic from 'next/dynamic';
 
 const Map = dynamic(() => import('../../map/cheMap'));
 
-
-
 export const generateStaticParams = async () => {
   return accommodations.map(accommodation => ({
     id: accommodation.id.toString(),
   }));
 };
 
-const AccommodationDetail = async ({ params }: { params: { id: string } }) => {
-  const accommodation = accommodations.find(a => a.id === parseInt(params.id));
+interface Params {
+  id: string;
+}
+
+
+const AccommodationDetail = async ({ params }: { params: Params  }) => {
+
+  const accommodationId = parseInt(params.id);
+  const accommodation = accommodations.find(a => a.id === accommodationId);
 
   if (!accommodation) {
     return <h2>Alojamiento no encontrado</h2>;
