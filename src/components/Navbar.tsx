@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/authStore';
 
 interface NavbarProps {
   setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
@@ -16,14 +17,12 @@ interface IUserSession {
 
 const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
   const router = useRouter();
-  const [userData, setUserData] = useState<IUserSession | null>(null);
+  const { user, resetForm } = useAuthStore();
+  const [userData, setUserData] = useState(user);
 
   useEffect(() => {
-    const storedUserData = localStorage.getItem('userSession');
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
+    setUserData(user);
+  }, [user]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (setSearchTerm) {
@@ -37,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userSession');
+    resetForm();
     setUserData(null);
     router.push('/');
   };
