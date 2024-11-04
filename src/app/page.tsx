@@ -13,7 +13,9 @@ export default function Home() {
             title={accommodation.title}
             description={accommodation.description}
             price={accommodation.price}
-            image={accommodation.image} provincia={''}          />
+            image={accommodation.image} provincia={''} 
+            latitude={accommodation.latitude}
+            longitude={accommodation.longitude}         />
         ))}
       </div>
       
