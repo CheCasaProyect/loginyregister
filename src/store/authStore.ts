@@ -2,7 +2,7 @@ import { create } from "zustand";
 import IAuthState from "../interfaces/Auth";
 import IUser from "@/interfaces/Iuser";
 
-const useAuthStore = create<IAuthState>((set) => {
+export const useAuthStore = create<IAuthState>((set) => {
   const savedToken = localStorage.getItem("token");
 
   if (savedToken) {
@@ -21,7 +21,7 @@ const useAuthStore = create<IAuthState>((set) => {
 
   return {
     token: null,
-    user: null as IUser | null,
+    user: null,
     error: "",
     successMessage: "",
     setToken: (token) => set({ token }),
@@ -67,7 +67,7 @@ const useAuthStore = create<IAuthState>((set) => {
   };
 });
 
-export default useAuthStore;
+// export default useAuthStore;
 
 
 
