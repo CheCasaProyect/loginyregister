@@ -4,5 +4,5 @@ export default interface IAccommodation {
     provincia: string;
     description: string;
     price: number;
-    image: string;
+    photos: string;
   }

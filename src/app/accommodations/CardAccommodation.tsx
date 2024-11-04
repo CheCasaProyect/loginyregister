@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import IAccommodation from "@/interfaces/Accomodation";
 import React from 'react';
 
-const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, price, image }) => {
+const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, price, photos }) => {
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -16,7 +16,7 @@ const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, p
       onClick={handleCardClick}
     >
       <div className="container relative w-full h-full transition-transform duration-700 perspective-1000">
-        <div className="front absolute inset-0 w-full h-full bg-cover rounded-3xl" style={{ backgroundImage: `url(${image})` }}>
+        <div className="front absolute inset-0 w-full h-full bg-cover rounded-3xl" style={{ backgroundImage: `url(${photos})` }}>
           <div className="inner flex items-center justify-center h-full">
             <p className="text-white font-bold text-2xl">{title}</p>
             <span className="text-white">{description}</span>

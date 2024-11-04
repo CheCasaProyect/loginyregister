@@ -1,9 +1,12 @@
 export default interface IFormData {
-    title: string;
-    description: string;
-    price: string;
-    location: string;
-    rooms: number;
-    bathrooms: number;
-    photos: File[];
-  }
+  title: string;              
+  description: string;        
+  price: any;              
+  state: string;              
+  city: string;               
+  isAvailable: boolean;       
+  capacity: any;           
+  bedrooms: number;          
+  bathrooms: number;         
+  photos: File[];             
+}
