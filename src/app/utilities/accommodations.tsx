@@ -6,6 +6,10 @@ export const accommodations = [
       price: 120,
       image: 'https://a0.muscache.com/im/pictures/73708697-309d-496b-b1c5-641fc0ed64e8.jpg?im_w=1200',
       provincia: "Buenos Aires",
+      stripeProductId: 'prod_R8Pk4TNOX8URrh',
+      stripePriceId: 'price_1QG8v1QriIenC0pjMkBGZMzX',
+      latitude: -32.89084,
+      longitude: -68.82717
     },
     {
       id: 2,

@@ -5,4 +5,8 @@ export default interface IAccommodation {
     description: string;
     price: number;
     photos: string;
+    latitude: any;
+    longitude: any;
+    stripePriceId: any;
+    stripeProductId:any;
   }

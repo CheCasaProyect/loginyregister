@@ -1,9 +1,12 @@
+
 "use client";
 import { useRouter } from 'next/navigation';
 import IAccommodation from "@/interfaces/Accomodation";
 import React from 'react';
 
-const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, price, photos }) => {
+
+const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, price, photos, latitude, longitude }) => {
+
   const router = useRouter();
 
   const handleCardClick = () => {
@@ -20,9 +23,10 @@ const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, p
           <div className="inner flex items-center justify-center h-full">
             <p className="text-white font-bold text-2xl">{title}</p>
             <span className="text-white">{description}</span>
+
           </div>
         </div>
-        <div className="back absolute inset-0 w-full h-full bg-gray-300 rounded-3xl transform rotateY-180">
+        <div className="back absolute inset-0 w-full h-full bg-gray-800 text-white rounded-3xl transform rotateY-180">
           <div className="inner flex items-center justify-center h-full p-4">
             <p className="text-center">{description}</p>
           </div>

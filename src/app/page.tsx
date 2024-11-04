@@ -20,18 +20,23 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="Home flex flex-wrap justify-center gap-5 p-8">
-      {accommodations.map((accommodation) => (
-        <CardAccommodation
-          key={accommodation.id}
-          id={accommodation.id}
-          title={accommodation.title}
-          description={accommodation.description}
-          price={accommodation.price}
-          photos={accommodation.photos}
-          provincia={''} // Puedes ajustar este valor según lo que necesites
-        />
-      ))}
-    </div>
+
+    <>
+      <div className="Home flex flex-wrap justify-center gap-5 p-8">
+        {accommodations.map((accommodation) => (
+          <CardAccommodation
+            key={accommodation.id}
+            id={accommodation.id}
+            title={accommodation.title}
+            description={accommodation.description}
+            price={accommodation.price}
+            photos={accommodation.photos}
+            latitude={accommodation.latitude}
+            longitude={accommodation.longitude} provincia={''} stripePriceId={undefined} stripeProductId={undefined}/>
+        ))}
+      </div>
+      
+    </>
+
   );
 }
