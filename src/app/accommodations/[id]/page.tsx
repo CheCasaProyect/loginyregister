@@ -1,4 +1,6 @@
-import React from 'react';
+
+"use client";
+import React, { useState, useEffect } from 'react';
 import DatePickerComponent from '@/components/Calendar';
 import { accommodations } from '../../utilities/accommodations'; 
 import PaymentButton from '@/components/PaymentButton';
@@ -8,34 +10,59 @@ import dynamic from 'next/dynamic';
 
 const Map = dynamic(() => import('../../map/cheMap'));
 
-export const generateStaticParams = async () => {
-  return accommodations.map(accommodation => ({
-    id: accommodation.id.toString(),
-  }));
-};
+
+const AccommodationDetail = ({ params }: { params: { id: string } }) => {
+  const [accommodation, setAccommodation] = useState<IAccommodation | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAccommodation = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/properties/${params.id}`);
+        if (!response.ok) {
+          const errorMessage = await response.text(); // Registrar el mensaje de error
+          throw new Error(`Error: ${response.status} - ${errorMessage}`);
+        }
+        const data = await response.json();
+        if (!data) {
+          throw new Error('No se recibió ningún dato');
+        }
+        setAccommodation(data);
+      } catch (err: unknown) { 
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Error desconocido');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchAccommodation();
+  }, [params.id]);
+
 
 interface Params {
   id: string;
 }
 
-
-const AccommodationDetail = async ({ params }: { params: Params  }) => {
-
-  const accommodationId = parseInt(params.id);
-  const accommodation = accommodations.find(a => a.id === accommodationId);
-
   if (!accommodation) {
-    return <h2>Alojamiento no encontrado</h2>;
+    return <p>No se encontró información de alojamiento.</p>;
   }
+  if (loading) return <p>Cargando...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-4xl font-bold text-gray-900 mb-4">{accommodation.title}</h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <img src={accommodation.image} alt={accommodation.title} className="col-span-2 sm:col-span-2 lg:col-span-3 rounded-lg object-cover" />
-        <img src={accommodation.image} alt="secondary image" className="rounded-lg object-cover" />
-        <img src={accommodation.image} alt="secondary image" className="rounded-lg object-cover" />
-        <img src={accommodation.image} alt="secondary image" className="rounded-lg object-cover" />
+        <img src={accommodation.photos} alt={accommodation.title} className="col-span-2 sm:col-span-2 lg:col-span-3 rounded-lg object-cover" />
+        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
+        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
+        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
       </div>
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <div>
