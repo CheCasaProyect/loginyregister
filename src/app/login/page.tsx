@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
 import { auth, provider } from "../../firebaseConfig";
-import { signInWithPopup } from "firebase/auth";
+import { getRedirectResult, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { useAuth } from "../../hooks/useLogin";
 
 
@@ -41,15 +41,7 @@ const Login = () => {
   };
 
   const signInWithGoogle = () => {
-      signInWithPopup(auth, provider)
-        .then(async (result) => {
-          const token = await result.user.getIdToken();
-          await sendTokenToBackend(token); 
-          console.log('Token:', token); 
-        })
-        .catch((error) => {
-          console.error('Error de autenticación:', error);
-        });
+      signInWithRedirect(auth, provider)
   };
 
   const sendTokenToBackend = async (token: any) => {
@@ -68,6 +60,23 @@ const Login = () => {
       console.error('Error al enviar el token:', error);
     }
   };
+  
+  useEffect(() => {
+    const fetchRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result) {
+          const token = await result.user.getIdToken();
+          await sendTokenToBackend(token); 
+          console.log('Token:', token);
+        }
+      } catch (error) {
+        console.error('Error de autenticación:', error);
+      }
+    };
+    fetchRedirectResult();
+  }, []);
+
 
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-[#fffefe] text-[#0a0a0a] pt-20 lg:pt-40 pb-20">
