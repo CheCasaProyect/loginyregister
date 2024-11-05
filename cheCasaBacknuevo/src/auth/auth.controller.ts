@@ -30,7 +30,7 @@ export class AuthController {
  
   @ApiOperation({summary: 'Redirect'})
   @Get('oauth/google/redirect')
-  async googleOAuthredirect(@Req() req, @Res() res: Response) {
+  async googleOAuthredirect(@Req() req, @Res() res: any) {
     this.authService.googleAuthRedirect(req.user, res);
   }
 
