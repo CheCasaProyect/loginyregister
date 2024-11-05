@@ -1,6 +1,0 @@
-[submodule "CheCasaFront"]
-	path = CheCasaFront
-	url = https://github.com/CheCasaProyect/CheCasaFront.git
-[submodule "cheCasaBack"]
-	path = cheCasaBack
-	url = https://github.com/CheCasaProyect/cheCasaBack.git
