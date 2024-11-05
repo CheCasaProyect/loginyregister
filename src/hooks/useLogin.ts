@@ -1,19 +1,28 @@
 "use client"
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { useAuthStore } from "../store/authStore";
+import {useAuthStore} from "@/store/authStore";
 import { useRouter } from "next/navigation";
 
 interface LoginValues {
   email: string;
   password: string;
 }
-
-export const useAuth = () => {
+interface UseAuthReturn {
+  login: (values: LoginValues) => Promise<void>;
+  error: string | null;
+  successMessage: string | null;
+}
+export const useAuth = (): UseAuthReturn => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const { setToken, setUser } = useAuthStore();
   const router = useRouter();
+// export const useAuth = (): { login: (values: any) => Promise<void>; } => {
+//   const [error, setError] = useState<string | null>(null);
+//   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+//   const { setToken, setUser } = useAuthStore();
+//   const router = useRouter();
 
 
   const login = async (values: LoginValues) => {
@@ -23,7 +32,7 @@ export const useAuth = () => {
     try {
       console.log("Enviando solicitud de login...");
 
-      const response = await fetch("https://proyectochecasa.onrender.com/auth/login", {
+      const response = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,12 +84,12 @@ export const useAuth = () => {
     }
   };
 
-  return { login, error, successMessage };
+  return { login,error, successMessage };
 };
 export const loginWithGoogle = async () => {
   const router = useRouter(); 
   try {
-    const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
+    const response = await fetch("http://localhost:3001/auth/google", {
       method: "POST",
       credentials: "include", 
     });
@@ -110,26 +119,3 @@ export const loginWithGoogle = async () => {
     console.error("Error al iniciar sesión con Google", error);
   }
 };
-
-// export const loginWithGoogle = async () => {
-//   try {
-//     const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
-//       method: "POST",
-//       credentials: "include", 
-//     });
-//     if (response.ok) {
-//       console.log("Inicio de sesión con Google exitoso");
-//     } else {
-//       const errorData = await response.json();
-//       console.error("Error en el inicio de sesión con Google:", errorData.message);
-//       Swal.fire({
-//         icon: "error",
-//         title: "Error",
-//         text: errorData.message || "No se pudo iniciar sesión con Google.",
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Error al iniciar sesión con Google", error);
-//   }
-// };
-

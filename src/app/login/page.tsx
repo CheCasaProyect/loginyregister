@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import Link from "next/link";
-import { useAuthStore } from "@/store/authStore";
+import {useAuthStore} from "@/store/authStore";
 import { auth, provider } from "../../firebaseConfig";
 import { getRedirectResult, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { useAuth } from "../../hooks/useLogin";
@@ -41,7 +41,11 @@ const Login = () => {
   };
 
   const signInWithGoogle = () => {
+    if(auth){
       signInWithRedirect(auth, provider)
+    }else {
+      console.error("Firebase auth es null")
+    }
   };
 
   const sendTokenToBackend = async (token: any) => {
@@ -63,17 +67,21 @@ const Login = () => {
   
   useEffect(() => {
     const fetchRedirectResult = async () => {
-      try {
-        const result = await getRedirectResult(auth);
-        if (result) {
-          const token = await result.user.getIdToken();
-          await sendTokenToBackend(token); 
-          console.log('Token:', token);
-        }
-      } catch (error) {
+      if (auth){
+        try {
+          const result = await getRedirectResult(auth);
+          if (result) {
+            const token = await result.user.getIdToken();
+            await sendTokenToBackend(token); 
+            console.log('Token:', token);
+          }
+      }catch (error) {
         console.error('Error de autenticación:', error);
       }
+    }else{
+      console.error("Firebase auth es null")
     };
+  }
     fetchRedirectResult();
   }, []);
 

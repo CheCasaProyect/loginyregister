@@ -44,14 +44,15 @@ const PropertyForm: React.FC = () => {
 
           const data = await response.json();
           uploadedPhotos.push(data.secure_url);
-          console.log("Estado de fotos después de la actualización:", uploadedPhotos);
+          console.log(data.secure_url);
+          
         } catch (error) {
           console.error("Error uploading image:", error);
           setErrorMessage("Upload error: " + (error instanceof Error ? error.message : "Unknown error"));
         }
       }
 
-      // Actualiza el estado con todas las fotos subidas
+     
       setFormData((prevData) => ({
         ...prevData,
         photos: [...prevData.photos, ...uploadedPhotos],
@@ -75,7 +76,7 @@ const PropertyForm: React.FC = () => {
   
     const propertyData = new FormData(e.target as HTMLFormElement);
     const updata = Object.fromEntries(propertyData);
-    console.log("Datos enviados:", updata);
+    
 
     try {
       const response = await fetch("http://localhost:3001/properties", {
