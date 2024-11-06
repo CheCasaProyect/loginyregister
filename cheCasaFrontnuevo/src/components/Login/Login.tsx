@@ -21,6 +21,8 @@ const Login: React.FC = () => {
       } catch (error) {
         console.error("Error al analizar el usuario:", error);
       }
+    }else {
+      console.log("No hay usuario en localStorage.");
     }
   }, []);
 
@@ -71,7 +73,7 @@ const Login: React.FC = () => {
     const { email, password } = values;
     console.log("Formulario enviado:", values);
     try {
-      const res = await fetch("https://tu-backend.com/api/auth/login", {
+      const res = await fetch("https://proyectochecasa.onrender.com/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

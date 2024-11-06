@@ -6,6 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import React from "react";
 
 const Register = () => {
   const [localError, setLocalError] = useState<string | null>(null);
@@ -19,7 +20,7 @@ const Register = () => {
       values.phone = String(values.phone);
       console.log("Datos enviados:", JSON.stringify(values));
 
-      const response = await fetch("http://localhost:3001/auth/signup", {
+      const response = await fetch("https://proyectochecasa.onrender.com/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

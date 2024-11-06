@@ -1,5 +1,5 @@
 import React from "react";
-import IUser from "@/interfaces/Iuser";
+import IUser from "../../interfaces/Iuser";
 
 interface UserProfileProps {
   user: IUser | null;

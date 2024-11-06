@@ -111,7 +111,7 @@ const MyReviews: React.FC<{ propertyId: string }> = ({ propertyId }) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const response = await fetch("http://localhost:3001/auth/reviews/${propertyId}"); 
+        const response = await fetch("https://proyectochecasa.onrender.com/reviews/${propertyId}"); 
         if (!response.ok) {
           throw new Error('Error al cargar las reseñas');
         }

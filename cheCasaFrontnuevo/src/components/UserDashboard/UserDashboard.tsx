@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import IUser from "@/interfaces/Iuser";
+import IUser from "../../interfaces/Iuser";
 import UserProfile from './UserProfile';
 import MyProperties from './UserProperties';
 import MyReservations from './UserReservations';
