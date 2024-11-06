@@ -18,7 +18,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ stripeProductId , stripeP
       return;
     }
     try {
-      const response = await fetch('http://localhost:3002/stripe/testingPayments', {
+      const response = await fetch('https://proyectochecasa.onrender.com/stripe/testingPayments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

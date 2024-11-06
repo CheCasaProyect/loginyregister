@@ -1,4 +1,4 @@
-import DatePickerComponent from '@/components/Calendar';
+import DatePickerComponent from '../../components/Calendar';
 import React from 'react';
 
 

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import DatePickerComponent from '@/components/Calendar';
-import PaymentButton from '@/components/PaymentButton';
+import DatePickerComponent from '../../../components/Calendar';
+import PaymentButton from '../../../components/PaymentButton';
 import IAccommodation from '../../../interfaces/Accomodation';
 import dynamic from 'next/dynamic';
 import { use } from 'react'; // Importa use de React

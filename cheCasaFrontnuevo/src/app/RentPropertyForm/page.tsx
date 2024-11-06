@@ -1,5 +1,5 @@
 "use client";
-import IFormData from '@/interfaces/FormData';
+import IFormData from '../../interfaces/FormData';
 import React, { useState, useEffect } from 'react';
 
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dddh5wrx3/image/upload";
